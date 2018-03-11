@@ -19,7 +19,7 @@
 
 	addi	r2, r0, 110
 
-	lw		first-20
+	lw		r3, first-20
 
 	lw		r4, 4104 ; 4096 + 8 = 4104
 
