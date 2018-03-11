@@ -1,0 +1,378 @@
+---
+DLX:
+  - properties:
+    - architecture:
+      - bit-length: 32-bit
+      - type: load-store
+    - orderOfBytes: big-endian
+    - memory:
+      - length: 0x8000 = 32 768 B
+
+  - registers:
+    - length: 32-bit
+    - types:
+      - name: General-Purpose Registers
+        abbreviation: GPR
+        registers: [ R0, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22, R23, R24, R25, R26, R27, R28, R29, R30, R31 ]
+      - name: Floating-Point Registers
+        abbreviation: FPR
+        registers: [ F0, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12, F13, F14, F15, F16, F17, F18, F19, F20, F21, F22, F23, F24, F25, F26, F27, F28, F29, F30, F31 ]
+        notes: |
+          Stores single precision floating point number
+          Can also store double precision floating point number
+          Double precision floating point number use two registers e.g. (F0, F1)
+          Double precision floating point starts from even register
+      - name: Special Registers
+        abbreviation: SR
+        registers: [ PC, IMAR, IR, A, AHI, B, BHI, BTA, ALU, ALUHI, FPSR, DMAR, SDR, SDRHI, LDR, LDRHI ]
+    
+    - registersFunctions:
+      - name: R0
+        notes: |
+          Always has value: 0 (00000000h)
+          Cannot change register value
+      - name: R1
+        notes: |
+          Acts as return from traps
+      - name: R14
+        notes: |
+          Acts as memory pointer to parameters for traps
+      - name: R31
+        notes: |
+          Stores return address of jump function
+      - name: PC
+        expandedAbberiation: Program Counter
+      - name: IMAR
+        expandedAbberiation: Instruction Memory Address Register
+        description: |
+          In IF phase it stores the memory address of instruction to acquire 
+      - name: IR
+        expandedAbberiation: Instruction Register
+        description: |
+          In IF phase this register will acquire instruction from memory
+          IR <- MEM[PC] 
+      - name: A
+        description: |
+          First ALU argument register
+      - name: B
+        description: |
+          Second ALU argument register
+      - name: BTA
+        expandedAbberiation: Branch Target Address
+        description: |
+          Store computed jump/branch address (ID phase)
+          If jump should be applied value is copied to PC register
+      - name: ALU
+        expandedAbberiation: Arithmetic and Logical Unit
+      - name: FPSR
+        expandedAbberiation: Floating-Point State Register
+        description: |
+          Used in comparison floating point numbers (like eq, ne, gt, ge, ...)
+      - name: DMAR
+        expandedAbberiation: Data Memory Address Register
+        description: |
+          In EX phase, if there is load/store instruction this register will obtain the address of memory cell to read/write
+      - name: SDR
+        expandedAbberiation: Store Data Register
+        description: |
+          Store data received in EX phase to save it in MEM phase
+      - name: LDR
+        expandedAbberiation: Load Data Register
+        description: |
+          Store data received in MEM phase to save it in WB phase
+
+  - directives:
+    - name: data
+      example: .data
+      example: .data 0x1000
+      description: |
+        początek dyrektywy danych
+
+    - name: text
+      example: .text
+      example: .text 0x100
+      description: |
+        początek dytektywy rozkazów
+
+    - name: byte
+      size: 8
+      example: .byte 0x12, 0xaa, 100
+      description: |
+        bajt
+
+    - name: half
+      size: 16
+      example: .half 0x1234, 0xaabb, 100
+      description: |
+        2 bajty
+
+    - name: word
+      size: 32
+      example: .word 0x12345678, 0xaabbccdd, 100
+      example: .word 6
+      description: |
+        4 bajty
+
+    - name: float
+      size: 32
+      example: .float 123.45
+      description: |
+        liczby zmiennoprzecinkowe pojedyńczej precyzji
+
+    - name: double
+      size: 64
+      example: .double 123.456789 
+      description: |
+        liczby zmiennoprzecinkowe podwójnej precyzji
+
+    - name: ascii
+      size:
+      example: .ascii "string1", "string2" 
+      description: |
+        ciąg znaków
+
+    - name: asciiz
+      size:
+      example: .asciiz "string1", "string2" 
+      description: |
+        ciąg znaków zakończony \0
+
+    - name: space
+      size:
+      example: .space size 
+      description: |
+        przesuwa wskaźnik zapisu do pamięci o [size] bajtów.
+        zostawia wolne miejsce w pamięci
+
+    - name: align
+      size:
+      example: .align 2 
+      description: |
+        przesuwa wskaźnik zapisu do pamięci do następnego adresu podzielnego przez 2^n
+
+    - name: global
+      size:
+      example: .global main 
+      description: |
+        etykieta do pamięci w kodzie
+        
+  - instructions:
+    - instructionFormats:
+      - formatName: I-type
+        name: Immediate
+        description-en: manipulate data provided by a 16 bit field
+
+      - formatName: R-type
+        name: Register
+        description-en: manipulate data from one or two registers
+
+      - formatName: J-type
+        name: Jump
+        description-en: provide for the executions of jumps that do not use a register operand to specify the branch target address
+
+    - instructionClasses:
+      - name: Load & store instructions
+        instructions: [ lb, lbu, lh, lhu, lw, sb, sh, sw ]
+
+      - name: Move instructions
+        instructions: [ movi2s, movs2i, movf, movd, movfp2i, movi2fp ]
+
+      - name: Arithmetic and logical instructions
+        instructions: [ add, sub, addu, subu, addi, subi, addui, subui, mult, multu, div, divu, and, or, xor, andi, ori, xori, lhi, sll, srl, sra, slli, srli, srai ]
+
+      - name: Floating-point instructions
+        instructions: [ addf, subf, multf, divf, addd, subd, multd, divd, cvtf2d, cvtf2i, cvtd2f, cvtd2i, cvti2f, cvti2d, ltf, ltd, gtf, gtd,  lef, led, gef, ged, eqf, eqd, nef, ned ]
+
+      - name: Jump & branch instructions
+        instructions: [ beqz, bneq, bfpt, bfpf, j, jr, jal, jalr ]
+
+      - name: Special instructions
+        instructions: [ slt, sgt, sle, sge, seq, sne, slti, sgti, slei, sgei, seqi, snei ]
+    
+    - instructions:
+      - name: add
+        description: |
+          add [register] to [register] and save in [register]
+        example: 
+          - code: add r1, r2, r3
+            pseudocode: r1 = r2 + r3
+
+      - name: addi
+        syntax: addi register1 register2 register3
+        description: |
+          add [register2] to [constant3] and save in [register1] 
+        example: 
+          - code: addi r1, r2, 5
+            pseudocode: r1 = r2 + 5
+
+      - name: addf
+        syntax: addf float1 float2 float3
+        description: |
+          add [float2 register] to [float3 register] and save in [float3 register]
+        example:
+          - code: addf f1, f2, f3
+            pseudocode: f1 = f2 + f3
+
+      - name: j
+        syntax: j target
+        description: |
+          set [PC] to [PC] + 4 + [target] 
+
+      - name: jr
+        syntax: jr register1
+        description: |
+          set [PC] to [register1]
+        example:
+          - code: jr r1
+
+      - name: jal
+        syntax: al label
+        description: |
+          set [r31] to [PC] + 4
+          set [PC] to [PC] + 4 + [label]
+
+      - name: beqz
+        syntax: beqz r1,label
+        description: |
+          if (R[rega] == 0) 
+            PC <-- PC + imm16 + 4
+
+    - traps:
+      - properties:
+        - name: parameter
+          position: |
+            adress of parameter is obtained from the register [r14]
+        - name: result
+          position: |
+            result is returned to register [r1]
+
+      - trapsInstructions:
+        - name: Trap 0
+          description: |
+            end program
+        
+        - name: Trap 1
+          description: |
+            open file
+          
+        - name: Trap 2
+          description: |
+            close file
+        
+        - name: Trap 3
+          description: |
+            read
+          example: |
+            .data 
+              Buffer:     .space  500
+              Parameter:  .space  4
+                          .word   Buffer
+                          .word   500
+            .text
+              lhi   r14, Parameter >> 16        ; higher 16 bit
+              addui r14, r14, Parameter&0xffff  ; lower 16 bit
+              trap  3
+          parameters:
+            - name: file descriptor
+            - name: buffer address
+            - name: size of buffer
+
+        - name: Trap 4
+          description: |
+            write
+        
+        - name: Trap 5
+          description: |
+            write formated text
+          example: |
+            addi r14, r0, msg_addr
+  - addressingModes:
+    - modeName: Register
+      description: |
+        Argument value is in register
+      example: add r1, r2, r3
+
+    - modeName: Immediate
+      description: |
+        Argument is constant
+      example: addi r1, r2, #1337
+
+    - modeName: Displacement
+      description: |
+        Argument value is in memory address pointed by register + constant offset
+      example: lw r17, 400(R1)
+
+    - modeName: Register Deffered
+      description: |
+        Argument value is in memory address pointed by register
+      example: lw r17, 0(R1)
+
+    - modeName: Absolute
+      description: |
+        Argument value is in memory address pointed by constant value
+      example: lw r17, 400(R0)
+  - pipeline:
+    - phases:
+      - name: Instruction Fetch
+        abbreviation: IF
+        operations: |
+          IR    <- MEM[PC]
+          NPC   <- PC + 4
+
+      - name: Instruction Decode
+        abbreviation: ID
+        operations: |
+          A    <- Regs[IR{6..10}]
+          B    <- Regs[IR{11..15}]
+          Imm  <- ((IR{16}^16)##IR{16..31})
+
+      - name: Execution
+        abbreviation: EX
+        operations:
+          - instructionType: Memory Reference
+            operations: |
+              ALUOutput    <- A + Imm
+
+          - instructionType: Register-Register ALU instruction
+            operations: |
+              ALUOutput    <- A op B
+
+          - instructionType: Register-Immediate ALU instruction
+            operations: |
+              ALUOutput    <- A op Imm
+
+          - instructionType: Branch
+            operations: |
+              ALUOutput    <- NPC + Imm
+              Cond         <- (A op 0)
+
+      - name: Memory Reference / Branch Completion
+        abbreviation: MEM
+        operations:
+          - instructionType: Memory Reference
+            operations: |
+              LMD               <- Mem[ALUOutput]
+              or
+              MEM[ALUOutput]    <- B
+
+          - instructionType: Branch
+            operations: |
+              if(cond)
+                PC    <- ALUOutput
+              else
+                PC    <- NPC
+
+      - name: Write Back
+        abbreviation: WB
+        operations:
+          - instructionType: Register-Register ALU instruction
+            operations: |
+              Regs[IR{16..20}]    <- ALUOutput
+
+          - instructionType: Register-Immediate ALU instruction
+            operations: |
+              Regs[IR{11..15}]    <- ALUOutput
+
+          - instructionType: Load Instruction
+            operations: |
+              Regs[IR{11..15}]    <- LMD
