@@ -22,3 +22,7 @@ Repozytorium zorganizowane jest w następujący sposób:
 			- lab 3-4
 			- lab 5-6
 			- ...
+
+## Uwagi
+
+Główna gałąź repozytorium (`master`) jest ustawiona jako `protected`, więc gdybyście chcieli cokolwiek wrzucić, to należy stworzyć własną gałąź i zrobić PR; jeśli ktoś nie ogarnia jak działa Git, to proszę o podesłanie mi tego, co chcielibyście wrzucić na mojego maila (`artur.wolff@student.wat.edu.pl` lub `artur.m.wolff@gmail.com`).
