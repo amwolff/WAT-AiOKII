@@ -1,17 +1,17 @@
 ; 0₆, 18₁, 57₅, 63₄, 86₁, 97₇, 137₂, 180₈, 183₂, 259₃, 284₉, 284₉, 299₉
 
 .data
-			.word 0
-			.word 57
-			.word 63
-			.word 97
+		.word 0
+		.word 57
+		.word 63
+		.word 97
 	first:  .word 137
-			.word 180
+		.word 180
 	second: .word 183
-			.word 259
+		.word 259
 	Table:  .word 284
-			.word 284
-			.word 299
+		.word 284
+		.word 299
 
 .text
 	lw      r1, 0x1000 ; (4096)h = 0x1000
@@ -42,7 +42,7 @@
 	addi    r22, r0, 4
 	lw      r12, Table(r22)
 
-	addi    r22, r0, 4
+	addi    r22, r22, 4
 	lw      r13, Table(r22)
 
 	trap    0

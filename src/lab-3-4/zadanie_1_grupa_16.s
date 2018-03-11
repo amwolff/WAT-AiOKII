@@ -1,15 +1,15 @@
 .data
-			.word 40
-			.word 90
-			.word 94
-			.word 130
+		.word 40
+		.word 90
+		.word 94
+		.word 130
 	first:  .word 140
-			.word 154
+		.word 154
 	second: .word 159
-			.word 177
+		.word 177
 	Table:  .word 189
-			.word 257
-			.word 297
+		.word 257
+		.word 297
 
 .text
 	addi    r1, r0, 14
@@ -40,7 +40,7 @@
 	addi    r22, r0, 4
 	lw      r12, Table(r22)
 
-	addi    r22, r0, 4
+	addi    r22, r22, 4
 	lw      r13, Table(r22)
 
 	trap 0

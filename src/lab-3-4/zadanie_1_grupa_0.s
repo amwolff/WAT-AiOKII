@@ -1,17 +1,17 @@
 ; 81₈, 110₁, 119₃, 151₅, 169₆, 175₇, 205₄, 236₁, 239₂, 251₂, 266₉, 279₉, 282₉
 
 .data
-			.word 81
-			.word 119
-			.word 151
-			.word 169
-			.word 175
-			.word 205
+		.word 81
+		.word 119
+		.word 151
+		.word 169
+		.word 175
+		.word 205
 	first:  .word 239
 	second: .word 251
 	Table:  .word 266
-			.word 279
-			.word 282
+		.word 279
+		.word 282
 
 .text
 	addi    r21, r0, 0
@@ -42,7 +42,7 @@
 	addi    r22, r0, 4
 	lw      r12, Table(r22)
 
-	addi    r22, r0, 4
+	addi    r22, r22, 4
 	lw      r13, Table(r22)
 
 	trap    0
