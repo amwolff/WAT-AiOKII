@@ -21,7 +21,7 @@ start:
 	addi    r14, r0, par
 	trap    3
 
-	seqi    r1, par, 2
+	snei    r1, buffer, 4
 	beqz    r1, start
 
 	; j     start
