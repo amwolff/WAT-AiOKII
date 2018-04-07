@@ -27,17 +27,17 @@
 	bnez    r23, continue0
 	addi    r23, r0, -51
 
-	continue0:
+continue0:
 	sne     r24, r4, r5
 	bnez    r24, continue1
 	addi    r24, r0, -55
 
-	continue1:
+continue1:
 	sgei    r25, r5, 89
 	bnez    r25, continue2
 	addi    r25, r0, -43
 
-	continue2:
+continue2:
 	slei    r14, r0, 63
 	addi    r15, r0, 53
 	seqi    r16, r15, 58
@@ -56,20 +56,24 @@
 	or      r16, r14, r15
 	bnez    r16, ifTrue0
 	addi    r29, r0, -92
+	j       continue3
 
-	ifTrue0:
+ifTrue0:
 	addi    r29, r0, 74
 
+continue3:
 	sgti    r14, r8, 62
 	addi    r15, r0, 39
 	seqi    r16, r15, 9
 	and     r17, r14, r16
 	bnez    r17, ifTrue1
 	addi    r30, r0, -68
+	j       continue4
 
-	ifTrue1:
+ifTrue1:
 	addi    r30, r0, 21
 
+continue4:
 	addi    r14, r0, 67
 	sgti    r15, r14, 83
 	addi    r16, r0, 27
@@ -77,8 +81,10 @@
 	and     r18, r15, r17
 	bnez    r18, ifTrue2
 	addi    r31, r0, -46
+	j       continue5
 
-	ifTrue2:
+ifTrue2:
 	addi    r31, r0, 23
 
+continue5:
 	trap    0
