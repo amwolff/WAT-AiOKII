@@ -19,7 +19,7 @@
 
 	sle     r20, r0, r1
 
-	sgti    r21, 94, r2
+	slti    r21, r2, 94
 
 	sle     r22, r2, r3
 
@@ -39,8 +39,9 @@
 
 	continue2:
 	slei    r14, r0, 63
-	seqi    r15, 53, 58
-	or      r26, r14, r15
+	addi    r15, r0, 53
+	seqi    r16, r15, 58
+	or      r26, r14, r16
 
 	sge     r14, r2, r3
 	sgt     r15, r4, r5
@@ -60,18 +61,21 @@
 	addi    r29, r0, 74
 
 	sgti    r14, r8, 62
-	seqi    r15, 39, 9
-	and     r16, r14, r15
-	bnez    r16, ifTrue1
+	addi    r15, r0, 39
+	seqi    r16, r15, 9
+	and     r17, r14, r16
+	bnez    r17, ifTrue1
 	addi    r30, r0, -68
 
 	ifTrue1:
 	addi    r30, r0, 21
 
-	sgti    r14, 67, 83
-	snei    r15, 27, 80
-	and     r16, r14, r15
-	bnez    r16, ifTrue2
+	addi    r14, r0, 67
+	sgti    r15, r14, 83
+	addi    r16, r0, 27
+	snei    r17, r16, 80
+	and     r18, r15, r17
+	bnez    r18, ifTrue2
 	addi    r31, r0, -46
 
 	ifTrue2:
