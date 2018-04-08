@@ -14,7 +14,7 @@
 
 	readBuffer:     .space  64
 	readPar:        .word   0
-			.word   ReadBuffer
+			.word   readBuffer
 			.word   64
 
 .text
@@ -35,7 +35,7 @@ mainLoop:
 
 	lw      r4, lettersNumber
 
-	add     r5, r0
+	add     r5, r0, 0
 
 letterCheckLoop:
 	lb      r6, letters(r5)
