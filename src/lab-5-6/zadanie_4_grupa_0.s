@@ -25,14 +25,19 @@ try:
 
 	add     r2, r0, readBuffer
 
-	lb      r3, 0(r2)
-	; grupa 0: b c d e f g h i j k l m -- 98 - 109
-	sgei    r4, r3, 98
-	slei    r5, r3, 109
-	and     r6, r4, r5
-	beqz    r6, try
+	lb      r3, 1(r2)
+	seqi    r4, r3, 10
+	beqz    r4, try
 
-	sw      char, r3
+	lb      r5, 0(r2)
+	; grupa 0: b c d e f g h i j k l m -- 98 - 109
+	sgei    r6, r5, 98
+	slei    r7, r5, 109
+	and     r8, r6, r7
+	beqz    r8, try
+
+	sw      char, r5
 	add     r14, r0, outputCharPtr
 	trap    5
+	
 	j       try
