@@ -1,29 +1,43 @@
 .data
-	HelloText:      .asciiz "Witaj!\nProgram zostal napisany przez wyrobnika z grupy H7X2S1.\nMoj numer stanowiska: 404.\n"
-	ActionText:     .asciiz "Prosze o podanie znaku:"
+	helloText:      .asciiz "Witaj!\nProgram zostal napisany przez wyrobnika z grupy H7X2S1.\nMoj numer stanowiska: 404.\n"
+	actionText:     .asciiz "Prosze o podanie znaku:"
+	outputChar:     .asciiz "\n%c\n"
+	readBuffer:     .space 64
+	buffer:         .word 0
+			.word readBuffer
+			.word 64
 
 	.align 2
-	HelloTextPtr:   .word HelloText
-	ActionTextPtr:  .word ActionText
-
-	buffer:         .space  64
-	par:            .word   0
-			.word   buffer
-			.word   64
+	helloTextPtr:   .word helloText
+	actionTextPtr:  .word actionText
+	outputCharPtr:  .word outputChar
+	char:           .word 0
 
 .text
-	addi    r14, r0, HelloTextPtr
+	add     r14, r0, helloTextPtr
 	trap    5
-start:
-	addi    r14, r0, ActionTextPtr
+try:
+	add     r14, r0, actionTextPtr
 	trap    5
 
-	addi    r14, r0, par
+	add     r14, r0, buffer
 	trap    3
 
-	snei    r1, buffer, 4
-	beqz    r1, start
+	add     r2, r0, readBuffer
 
-	; j     start
+	lb      r3, 1(r2)
+	seqi    r4, r3, 10
+	beqz    r4, try
 
-	trap    0
+	lb      r5, 0(r2)
+	; grupa 0: b c d e f g h i j k l m -- 98 - 109
+	sgei    r6, r5, 98
+	slei    r7, r5, 109
+	and     r8, r6, r7
+	beqz    r8, try
+
+	sw      char, r5
+	add     r14, r0, outputCharPtr
+	trap    5
+	
+	j       try
