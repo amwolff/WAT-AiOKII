@@ -35,7 +35,7 @@ mainLoop:
 
 	lw      r4, lettersNumber
 
-	add     r5, r0, 0
+	addi    r5, r0, 0
 
 letterCheckLoop:
 	lb      r6, letters(r5)
