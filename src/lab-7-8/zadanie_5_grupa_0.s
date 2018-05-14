@@ -1,3 +1,6 @@
+; A[i] = 63+89+g+72+ns*i+ns*np*(68+ns)
+; n = 98
+; różnica, średnia, max, min
 .data
 	.align 2
 	tab:            .space 4*98
