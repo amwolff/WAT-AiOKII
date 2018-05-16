@@ -42,8 +42,10 @@
 	; r20: (n = 98)
 	; ...............................
 	addi    r16, r0, 4
+
 loop:
 	add     r2, r0, r0
+
 	addi    r2, r2, 63
 
 	addi    r2, r2, 89
@@ -64,9 +66,9 @@ loop:
 	add     r2, r2, r9
 
 	sub     r28, r28, r2
-	
+
 	add     r29, r29, r2
-	
+
 	sgt     r14, r2, r30
 	beqz    r14, continue0
 	add     r30, r0, r2
