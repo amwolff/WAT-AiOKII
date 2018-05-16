@@ -1,6 +1,6 @@
 .data
 	helloText:      .asciiz "Witaj!\nProgram zostal napisany przez wyrobnika z grupy H7X2S1.\nMoj numer stanowiska: 404.\n"
-	actionText:     .asciiz "Prosze o podanie znaku:"
+	actionText:     .asciiz "Prosze o podanie znaku: "
 	outputChar:     .asciiz "%c\n"
 
 	readBuffer:     .space 64
