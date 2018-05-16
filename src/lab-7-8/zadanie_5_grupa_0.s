@@ -39,10 +39,11 @@
 	; ...............................
 	; r18: i = ((n = 98) - 1) ? 0 : 1
 	; ...............................
-	; r19: (n = 98)
+	; r20: (n = 98)
 	; ...............................
 	addi    r16, r0, 4
 loop:
+	add     r2, r0, r0
 	addi    r2, r2, 63
 
 	addi    r2, r2, 89
@@ -68,25 +69,27 @@ loop:
 	
 	sgt     r14, r2, r30
 	beqz    r14, continue0
-	addi    r30, r0, r2
+	add     r30, r0, r2
 
 continue0:
-	slt     r15, r2, r31
+	sle     r15, r2, r19
 	beqz    r15, continue1
-	addi    r31, r0, r2
+	add     r31, r0, r2
 
 continue1:
+	add     r19, r0, r2
+
 	mult    r17, r16, r1
 	sw      tab(r17), r2
 
-	addi    r1, r1, 1
 	seqi    r18, r1, 97
+	addi    r1, r1, 1
 	beqz    r18, loop
 
 	sw      roznica, r28
 
-	addi    r19, r0, 98
-	div     r29, r29, r19
+	addi    r20, r0, 98
+	div     r29, r29, r20
 	sw      srednia, r29
 
 	sw      max, r30
