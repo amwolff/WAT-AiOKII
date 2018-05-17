@@ -15,9 +15,9 @@
 	roznica:    .word 0
 
 .text
-	add     r1, r0, 4
+	addi    r1, r0, 4
 
-loop:   
+loop:
 	add     r3, r0, r0
 
 	lw      r4, np
