@@ -10,9 +10,11 @@
 	tabB:   .space 4*87
 
 .text
-
+	; wartość przesunięcia zapisu do tablicy
 	addi    r1, r0, 4
+	; w r2 będzie trzymany numer indeksu
 loopA:
+	; f4 to wartość A[i], zerowane po każdym zapisie, przy nowej iteracji
 	addf    f4, f0, f0
 
 	addi    r3, r0, 53
@@ -21,6 +23,7 @@ loopA:
 	addi    r4, r0, 84
 	movi2fp f2, r4
 	cvti2f  f2, f2
+	; A[i] = 53 - 84
 	subf    f4, f1, f2
 
 	addi    r5, r0, 97
@@ -29,13 +32,16 @@ loopA:
 	addi    r6, r0, 3
 	movi2fp f5, r6
 	cvti2f  f5, f5
+	; f6 = 3 ÷ (0+97)
 	divf    f6, f5, f3
 
+	; konwersja aktualnego indeksu (r2) na wartość zmiennoprzecinkową (f7)
 	movi2fp f7, r2
 	cvti2f  f7, f7
 
 	divf    f8, f7, f6
 
+	; parę dalszych działań
 	addi    r7, r0, 78
 	movi2fp f9, r7
 	cvti2f  f9, f9
@@ -53,15 +59,22 @@ loopA:
 
 	addf    f15, f8, f14
 
+	; A[i] = poprzednia wartość A[i] (zmodyfikowana w 27 linijce) minus
+	; reszta działań
 	subf    f4, f4, f15
 
+	; obliczanie przesunięcia wskaźnika zapisu w pamięci dla tablicy A
+	; (numer iteracji * 4 [bajty])
 	mult    r10, r2, r1
 	sf      tabA(r10), f4
 
+	; instrukcja warunkowa kończąca pętlę (lub robiąca skok do kolejnej
+	; iteracji)
 	seqi    r11, r2, 92
 	addi    r2, r2, 1
 	beqz    r11, loopA
 
+	; wartości przesunięć zapisu do drugiej tablicy
 	addi    r12, r0, 2
 	addi    r13, r0, 5
 	addi    r14, r0, 4
