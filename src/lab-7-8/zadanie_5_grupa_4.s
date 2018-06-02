@@ -2,7 +2,6 @@
 ; n = 84
 ; mediana, min, suma, różnica
 .data
-	.align 2
 	tab:        .space 4*84
 
 	ns:         .word 15
