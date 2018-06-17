@@ -5,7 +5,6 @@
 ; g = 0
 ; B[i] = A[i+2] + A[i+0] * A[i+5] - A[i+4]
 ; m= n-8
-
 .data
 	tabA:   .space 8*92
 	tabB:   .space 8*86
@@ -70,7 +69,7 @@ loopA:
 	subd    f2, f2, f4
 
 	mult    r10, r2, r1
-	sd              tabA(r10), f2
+	sd      tabA(r10), f2
 
 	seqi    r11, r2, 92
 	addi    r2, r2, 1
@@ -81,15 +80,15 @@ loopB:
 
 	addi    r13, r12, 2
 	mult    r14, r13, r1
-	ld              f4, tabA(r14)
+	ld      f4, tabA(r14)
 	movf    f2, f4
 
 	mult    r15, r12, r1
-	ld              f4, tabA(r15)
+	ld      f4, tabA(r15)
 
 	addi    r16, r12, 5
 	mult    r17, r16, r1
-	ld              f6, tabA(r17)
+	ld      f6, tabA(r17)
 
 	multd   f4, f4, f6
 
@@ -97,11 +96,11 @@ loopB:
 
 	addi    r18, r12, 4
 	mult    r19, r18, r1
-	ld              f4, tabA(r19)
+	ld      f4, tabA(r19)
 	subd    f2, f2, f4
 
 	mult    r20, r12, r1
-	sd              tabB(r20), f2
+	sd      tabB(r20), f2
 
 	seqi    r21, r12, 86
 	addi    r12, r12, 1
